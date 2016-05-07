@@ -1,6 +1,24 @@
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+var cityCoords = {
+  "Assafora": [-9.4056, 38.8611],
+  "Atenas": [23.7294, 37.9839],
+  "Denver": [-104.9903, 39.7392],
+  "Isle of Wight": [-1.1488, 50.6608],
+  "Los Angeles": [-118.2437, 34.0522],
+  "Madrid": [-3.7038, 40.4168],
+  "Montreal": [-73.5673, 45.5017],
+  "Poros": [23.4717, 37.5206],
+  "Quebec": [-71.2080, 46.8139],
+  "Tbilisi": [44.8271, 41.7151]
 }
+
+var trips = [
+  {route: ["Madrid", "Isle of Wight"], date: "Agosto 2013"},
+  {route: ["Madrid", "Montreal", "Quebec"], date: "Agosto 2014"},
+  {route: ["Madrid", "Assafora"], date: "Agosto 2014"},
+  {route: ["Madrid", "Los Angeles", "Denver"], date: "Julio 2015"},
+  {route: ["Madrid", "Poros", "Atenas"], date: "Agosto 2015"},
+  {route: ["Madrid", "Tbilisi"], date: "Marzo 2016"},
+]
 
 
 var width = 1500,
@@ -27,12 +45,6 @@ svg.append("path")
     .datum(graticule)
     .attr("class", "graticule")
     .attr("d", path);
-/*
-svg.append("path")
-    .datum(graticule.outline)
-    .attr("class", "graticule outline")
-    .attr("d", path);
-*/
 
 d3.json("data/world-50m.json", function(error, world) {
   var countries = topojson.feature(world, world.objects.countries).features,
@@ -53,37 +65,16 @@ d3.json("data/world-50m.json", function(error, world) {
     .attr("class", "country")
     .attr("d", path)
     .style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return countries[n].color; }) + 1 | 0); });
-/*
-  svg.insert("path", ".graticule")
-      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
-      .attr("class", "boundary")
-      .attr("d", path)
-*/
 });
-
-var cityCoords = {
-  "Los Angeles": [-118.2437, 34.0522],
-  "Madrid": [-3.7038, 40.4168],
-  "Tbilisi": [44.8271, 41.7151]
-}
-
-var trips = [
-  {route: ["Madrid", "Los Angeles"]},
-  {route: ["Madrid", "Los Angeles"]},
-]
 
 // Draw cities
 _(cityCoords).forEach(function(coords, city) {
   svg.append('svg:circle')
-    .attr("transform", function(d) {
-      return "translate(" + projection(coords) + ")";
-    })
+    .attr("transform", function(d) { return "translate(" + projection(coords) + ")"; })
     .attr('r', 3)
-    .attr('fill', "#FF6512")
+    .attr('class', "city")
     .on('mouseover', function(d, i){
-      if (document.getElementById(city)) {
-        return
-      }
+      if (document.getElementById(city)) { return }
       svg.append("text")
         .attr("id", city)
         .attr("class", "place-label")
@@ -92,7 +83,22 @@ _(cityCoords).forEach(function(coords, city) {
         .attr("dx", ".55em")
         .text(city)
     })
+})
 
+_(trips).forEach(function(trip) {
+  var points = _.map(trip.route, function(val) {
+    var p = projection(cityCoords[val])
+    return {"x": p[0], "y": p[1]}
+  })
+
+  var lineFunction = d3.svg.line()
+      .x(function(d) { return d.x; })
+      .y(function(d) { return d.y; })
+      .interpolate("linear");
+
+  svg.append("path")
+    .attr("d", lineFunction(points))
+    .attr("class", "route")
 })
 
 d3.select(self.frameElement).style("height", height + "px");
