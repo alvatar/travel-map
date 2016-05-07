@@ -1,0 +1,20 @@
+{
+  "proj": {
+    "id": "laea",
+    "lon0": 11.0,
+    "lat0": 52
+  },
+  "layers": {
+    "countries": {
+       "src": "ne_50m_admin_0_countries.shp"
+    }
+  },
+  "bounds": {
+    "mode": "bbox", 
+    "data":  [0, 0, 360, 360]
+  },
+  "export": {
+   "width": 1000,
+   "height": "auto"
+  }
+}
