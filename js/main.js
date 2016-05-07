@@ -61,11 +61,38 @@ d3.json("data/world-50m.json", function(error, world) {
 */
 });
 
-svg.append('svg:circle')
-  .attr("transform", function(d) {
-    return "translate(" + projection([-3.7038, 40.4168]) + ")";
-  })
-  .attr('r', 5)
-  .attr('fill', "#ff0000")
+var cityCoords = {
+  "Los Angeles": [-118.2437, 34.0522],
+  "Madrid": [-3.7038, 40.4168],
+  "Tbilisi": [44.8271, 41.7151]
+}
+
+var trips = [
+  {route: ["Madrid", "Los Angeles"]},
+  {route: ["Madrid", "Los Angeles"]},
+]
+
+// Draw cities
+_(cityCoords).forEach(function(coords, city) {
+  svg.append('svg:circle')
+    .attr("transform", function(d) {
+      return "translate(" + projection(coords) + ")";
+    })
+    .attr('r', 3)
+    .attr('fill', "#FF6512")
+    .on('mouseover', function(d, i){
+      if (document.getElementById(city)) {
+        return
+      }
+      svg.append("text")
+        .attr("id", city)
+        .attr("class", "place-label")
+        .attr("transform", function(d) { return "translate(" + projection(coords) + ")"; })
+        .attr("dy", ".35em")
+        .attr("dx", ".55em")
+        .text(city)
+    })
+
+})
 
 d3.select(self.frameElement).style("height", height + "px");

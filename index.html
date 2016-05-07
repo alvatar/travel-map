@@ -1,46 +1,54 @@
 <!DOCTYPE html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-<meta charset="utf-8">
-<style>
+  <meta charset="utf-8">
+  <style>
 
-  body {
-  background-color: #00162E;
-  }
+    body {
+    background-color: #E3F4FA;
+    }
 
-  .country {
-  fill: #ccc;
-  stroke: #fff;
-  stroke-width: .5px;
-  stroke-linejoin: round;
-  }
+    .country {
+    fill: #ccc;
+    stroke: #fff;
+    stroke-width: .5px;
+    stroke-linejoin: round;
+    }
 
-  .graticule {
-  fill: none;
-  stroke: #000;
-  stroke-opacity: .3;
-  stroke-width: .5px;
-  }
+    .graticule {
+    fill: none;
+    stroke: #000;
+    stroke-opacity: .3;
+    stroke-width: .5px;
+    }
 
-  .graticule.outline {
-  stroke: #333;
-  stroke-opacity: 1;
-  stroke-width: 1.5px;
-  }
+    .graticule.outline {
+    stroke: #333;
+    stroke-opacity: 1;
+    stroke-width: 1.5px;
+    }
 
-</style>
+    .place-label {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 10px;
+    pointer-events: none;
+    }
 
-    </head>
+  </style>
+</head>
 
 <body>
+  <script src="js/vendor/lodash.min.js"></script>
+
   <script src="http://d3js.org/d3.v3.min.js"></script>
   <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
   <script src="http://d3js.org/topojson.v1.min.js"></script>
+
   <script src="js/main.js"></script>
 </body>
